@@ -1,0 +1,66 @@
+<mvc:View controllerName="flightui5eh.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+
+    <Table id="_IDGenTable1"
+		items="{
+			path: 'flightDataModel>/'
+			
+		}"
+		 mode="SingleSelectMaster"
+         itemPress=".onItemPress"> 
+		<headerToolbar>
+			<OverflowToolbar id="_IDGenOverflowToolbar">
+				<Title id="_IDGenTitle" text="Airlines" level="H2"/>
+				<ToolbarSpacer id="_IDGenToolbarSpacer"/>
+				
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns>
+			<Column id="_IDGenColumn">
+				<Text id="_IDGenText" text="{i18n>Carrid}" />
+			</Column>
+			<Column id="_IDGenColumn1">
+				<Text id="_IDGenText1" text="{i18n>Carrname}" />
+			</Column>
+			<Column id="_IDGenColumn2">
+				<Text id="_IDGenText2" text="{i18n>Url}" />
+			</Column>
+			<Column id="_IDGenColumn6">
+				<Text id="_IDGenText6" text="{i18n>logo_image}" />
+			</Column>
+			<Column id="_IDStatus">
+				<Text id="_IDStatus1" text="{i18n>Status}" />
+			</Column>
+
+		</columns>
+		<items>
+			<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" type="Navigation">
+				<cells>
+				<!--	<Text id="_IDGenText3" text="{flightDataModel>Carrid}" wrapping="false" />  -->
+					
+					<ObjectStatus 
+						id="_IDGenObjectStatus"
+						text="{flightDataModel>Carrid}"
+						state="{flightDataModel>Statuscriticality}"
+						class="sapUiSmallMarginEnd"/>
+
+					<Text id="_IDGenText4" text="{flightDataModel>Carrname}" wrapping="false"/>
+					<Text id="_IDGenText5" text="{flightDataModel>Url}" />
+					<Image id="_idimage1"
+						src="{flightDataModel>logo_image}" 
+						width="50px" 
+						height="40px"
+						decorative="false"
+						alt="{i18n>logo_image_alt}"
+						densityAware="false"
+						mode="Image"
+						backgroundSize="cover" />
+					<Text id="_IDStatus3" text="{flightDataModel>Status}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+    </Page>
+</mvc:View>
