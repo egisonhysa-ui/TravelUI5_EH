@@ -7,9 +7,8 @@
 		items="{
 			path: 'flightDataModel>/'
 			
-		}"
-		 mode="SingleSelectMaster"
-         itemPress=".onItemPress"> 
+		}" 
+		> 
 		<headerToolbar>
 			<OverflowToolbar id="_IDGenOverflowToolbar">
 				<Title id="_IDGenTitle" text="Airlines" level="H2"/>
@@ -36,24 +35,35 @@
 
 		</columns>
 		<items>
-			<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" type="Navigation">
+			<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" type="Navigation" press="onListItemPress" 
+			                highlight="{= ${flightDataModel>StatusCriticality} === 3 ? 'Success' :
+										  ${flightDataModel>StatusCriticality} === 2 ? 'Warning' :
+									      ${flightDataModel>StatusCriticality} === 1 ? 'Error' : 'None' }">
 				<cells>
-				<!--	<Text id="_IDGenText3" text="{flightDataModel>Carrid}" wrapping="false" />  -->
-					
-					<ObjectStatus 
-						id="_IDGenObjectStatus"
-						text="{flightDataModel>Carrid}"
-						state="{flightDataModel>Statuscriticality}"
-						class="sapUiSmallMarginEnd"/>
+					<!-- <Text id="_IDGenText3" text="{flightDataModel>Carrid}" wrapping="false"  />  -->
+					<HBox id="_IDGenHBox1" alignItems="Center" class="sapUiSmallMarginEnd">
+                        <Image id="_IDGenImage" src="{path: 'flightDataModel>StatusCriticality', 
+						       formatter: '.formatter.getCriticalImage'}" width="40px" height="30px" decorative="false"
+						       alt="{flightDataModel>StatusCriticality}" densityAware="false" mode="Image"/>
+                        <Text id="_IDGenText19" text="{flightDataModel>Carrid}" wrapping="false" class="sapUiSmallMarginBegin"/>
+                    </HBox>
 
 					<Text id="_IDGenText4" text="{flightDataModel>Carrname}" wrapping="false"/>
-					<Text id="_IDGenText5" text="{flightDataModel>Url}" />
+					<!-- <Text id="_IDGenText5" text="{flightDataModel>Url}" />  -->
+
+					<Text id="_IDGenText5"
+						text="{parts: [
+							{path: 'flightDataModel>Url'},
+							{path: 'flightDataModel>Carrname'}
+						], formatter:'.formatter.formatCarrierUrl'}"/> 
+
+
 					<Image id="_idimage1"
 						src="{flightDataModel>logo_image}" 
 						width="50px" 
 						height="40px"
 						decorative="false"
-						alt="{i18n>logo_image_alt}"
+						alt="{i18n>logo_image}"
 						densityAware="false"
 						mode="Image"
 						backgroundSize="cover" />

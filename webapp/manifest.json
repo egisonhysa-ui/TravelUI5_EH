@@ -111,6 +111,13 @@
           "target": [
             "TargetDetail"
           ]
+        },
+        {
+          "name": "Detail2",
+          "pattern": "Detail2/{Carrid}",
+          "target": [
+            "TargetDetail2"
+          ]
         }
       ],
       "targets": {
@@ -121,6 +128,10 @@
         "TargetDetail": {
           "id": "Detail",
           "name": "Detail"
+        },
+          "TargetDetail2": {
+          "id": "Detail2",
+          "name": "Detail2"
         }
       }
     },

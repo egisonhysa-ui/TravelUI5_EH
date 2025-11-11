@@ -1,12 +1,12 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
-    "sap/ui/model/json/JSONModel"
-], (Controller) => {
+    "flightui5eh/formatter/Formatter",
+], (Controller, Formatter) => {
     "use strict";
 
     return Controller.extend("flightui5eh.controller.Main", {
+        formatter: Formatter,
+
         onInit() {
             var oFlightJSONModel = new sap.ui.model.json.JSONModel();
             var that = this;
@@ -42,11 +42,14 @@ sap.ui.define([
 
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.navTo("Detail", { Carrid: sCarrid });
+        },
+
+        onListItemPress: function (oItem) {
+            // debugger
+            this.getOwnerComponent().getRouter().navTo("Detail2", {
+                Carrid: oItem.getSource().getBindingContext("flightDataModel").getProperty().Carrid
+            });
         }
-
-
-
-
 
     });
 });
