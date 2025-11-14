@@ -129,7 +129,7 @@
           "id": "Detail",
           "name": "Detail"
         },
-          "TargetDetail2": {
+        "TargetDetail2": {
           "id": "Detail2",
           "name": "Detail2"
         }

@@ -17,7 +17,7 @@ sap.ui.define([
         },
 
         getCriticalImage: function(sStatusCriticality) {
-            debugger
+            // debugger
             switch (sStatusCriticality) {
                 case 1: 
                     return "/img/criticality/logo_error.png";

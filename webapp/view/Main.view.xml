@@ -1,76 +1,144 @@
-<mvc:View controllerName="flightui5eh.controller.Main"
+<mvc:View
+    controllerName="flightui5eh.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
 
-    <Table id="_IDGenTable1"
-		items="{
+        <Table
+            id="_IDGenTable1"
+            mode="MultiSelect"
+            items="{
 			path: 'flightDataModel>/'
 			
-		}" 
-		> 
-		<headerToolbar>
-			<OverflowToolbar id="_IDGenOverflowToolbar">
-				<Title id="_IDGenTitle" text="Airlines" level="H2"/>
-				<ToolbarSpacer id="_IDGenToolbarSpacer"/>
-				
-			</OverflowToolbar>
-		</headerToolbar>
-		<columns>
-			<Column id="_IDGenColumn">
-				<Text id="_IDGenText" text="{i18n>Carrid}" />
-			</Column>
-			<Column id="_IDGenColumn1">
-				<Text id="_IDGenText1" text="{i18n>Carrname}" />
-			</Column>
-			<Column id="_IDGenColumn2">
-				<Text id="_IDGenText2" text="{i18n>Url}" />
-			</Column>
-			<Column id="_IDGenColumn6">
-				<Text id="_IDGenText6" text="{i18n>logo_image}" />
-			</Column>
-			<Column id="_IDStatus">
-				<Text id="_IDStatus1" text="{i18n>Status}" />
-			</Column>
+		}"
+        >
+            <headerToolbar>
+                <OverflowToolbar id="_IDGenOverflowToolbar">
+                    <Title
+                        id="_IDGenTitle"
+                        text="Airlines"
+                        level="H2"
+                    />
+                    <ToolbarSpacer id="_IDGenToolbarSpacer" />
+                    <Button
+                        id="_IDGenButton"
+                        text="Create"
+                        press=".onAddNewRecord"
+                        type="Emphasized"
+                        icon="sap-icon://add"
+                    />
+                    <Button 
+                        id="_IDGenButton3"
+                        text="Delete"
+                        type="Reject"
+                        icon="sap-icon://delete"
+                        press=".onDeleteSelected" />
 
-		</columns>
-		<items>
-			<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" type="Navigation" press="onListItemPress" 
-			                highlight="{= ${flightDataModel>StatusCriticality} === 3 ? 'Success' :
-										  ${flightDataModel>StatusCriticality} === 2 ? 'Warning' :
-									      ${flightDataModel>StatusCriticality} === 1 ? 'Error' : 'None' }">
-				<cells>
-					<!-- <Text id="_IDGenText3" text="{flightDataModel>Carrid}" wrapping="false"  />  -->
-					<HBox id="_IDGenHBox1" alignItems="Center" class="sapUiSmallMarginEnd">
-                        <Image id="_IDGenImage" src="{path: 'flightDataModel>StatusCriticality', 
-						       formatter: '.formatter.getCriticalImage'}" width="40px" height="30px" decorative="false"
-						       alt="{flightDataModel>StatusCriticality}" densityAware="false" mode="Image"/>
-                        <Text id="_IDGenText19" text="{flightDataModel>Carrid}" wrapping="false" class="sapUiSmallMarginBegin"/>
-                    </HBox>
+                </OverflowToolbar>
+            </headerToolbar>
+            <columns>
+                <Column id="_IDGenColumn">
+                    <Text
+                        id="_IDGenText"
+                        text="{i18n>Carrid}"
+                    />
+                </Column>
+                <Column id="_IDGenColumn1">
+                    <Text
+                        id="_IDGenText1"
+                        text="{i18n>Carrname}"
+                    />
+                </Column>
+                <Column id="_IDGenColumn2">
+                    <Text
+                        id="_IDGenText2"
+                        text="{i18n>Url}"
+                    />
+                </Column>
+                <Column id="_IDGenColumn6">
+                    <Text
+                        id="_IDGenText6"
+                        text="{i18n>logo_image}"
+                    />
+                </Column>
+                <Column id="_IDStatus">
+                    <Text
+                        id="_IDStatus1"
+                        text="{i18n>Status}"
+                    />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem
+                    id="_IDGenColumnListItem"
+                    vAlign="Middle"
+                    type="Navigation"
+                    press="onListItemPress"
+                    highlight="{= ${flightDataModel>StatusCriticality} === 3 ? 'Success' :
+								  ${flightDataModel>StatusCriticality} === 2 ? 'Warning' :
+							      ${flightDataModel>StatusCriticality} === 1 ? 'Error' : 'None' }"
+                >
+                    <cells>
+                        <HBox
+                            id="_IDGenHBox1"
+                            alignItems="Center"
+                            class="sapUiSmallMarginEnd"
+                        >
+                            <Image
+                                id="_IDGenImage"
+                                src="{path: 'flightDataModel>StatusCriticality', 
+						       formatter: '.formatter.getCriticalImage'}"
+                                width="40px"
+                                height="30px"
+                                decorative="false"
+                                alt="{flightDataModel>StatusCriticality}"
+                                densityAware="false"
+                                mode="Image"
+                            />
+                            <Text
+                                id="_IDGenText19"
+                                text="{flightDataModel>Carrid}"
+                                wrapping="false"
+                                class="sapUiSmallMarginBegin"
+                            />
+                        </HBox>
 
-					<Text id="_IDGenText4" text="{flightDataModel>Carrname}" wrapping="false"/>
-					<!-- <Text id="_IDGenText5" text="{flightDataModel>Url}" />  -->
+                        <Text
+                            id="_IDGenText4"
+                            text="{flightDataModel>Carrname}"
+                            wrapping="false"
+                        />
 
-					<Text id="_IDGenText5"
-						text="{parts: [
+                        <Text
+                            id="_IDGenText5"
+                            text="{parts: [
 							{path: 'flightDataModel>Url'},
 							{path: 'flightDataModel>Carrname'}
-						], formatter:'.formatter.formatCarrierUrl'}"/> 
+						], formatter:'.formatter.formatCarrierUrl'}"
+                        />
 
-
-					<Image id="_idimage1"
-						src="{flightDataModel>logo_image}" 
-						width="50px" 
-						height="40px"
-						decorative="false"
-						alt="{i18n>logo_image}"
-						densityAware="false"
-						mode="Image"
-						backgroundSize="cover" />
-					<Text id="_IDStatus3" text="{flightDataModel>Status}" />
-				</cells>
-			</ColumnListItem>
-		</items>
-	</Table>
+                        <Image
+                            id="_idimage1"
+                            src="{flightDataModel>logo_image}"
+                            width="50px"
+                            height="40px"
+                            decorative="false"
+                            alt="{i18n>logo_image}"
+                            densityAware="false"
+                            mode="Image"
+                            backgroundSize="cover"
+                        />
+                        <Text
+                            id="_IDStatus3"
+                            text="{flightDataModel>Status}"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </Page>
 </mvc:View>
