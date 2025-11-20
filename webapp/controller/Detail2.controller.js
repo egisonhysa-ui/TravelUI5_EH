@@ -8,13 +8,11 @@ sap.ui.define([
         formatter: Formatter,
 
         onInit: function () {
-            // debugger
             this.getOwnerComponent().getRouter().getRoute("Detail2").attachPatternMatched(this._onObjectMatched, this);
             this.getView().getModel("FlghDetailModel");
         },
 
         _onObjectMatched: function (oEvent) {
-            // debugger
             //read the url parameters
             var sCarrId = oEvent.getParameter("arguments").Carrid;
 

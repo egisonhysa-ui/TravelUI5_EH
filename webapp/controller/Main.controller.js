@@ -186,8 +186,135 @@ sap.ui.define([
                     }
                 });
             });
-        }
+        },
+
+        onModifySaveRecord: function () {
+            // Get values from the dialog inputs
+            var sCarrid = this.getView().byId("carrIDInput1").getValue();
+            var sCarrname = this.getView().byId("carrNameInput1").getValue();
+            var sCurrcode = this.getView().byId("currCodeInput1").getValue();
+            var sUrl = this.getView().byId("URLInput1").getValue();
+
+            // Validation: Check if required fields are filled
+            if (!sCarrid || !sCarrname || !sCurrcode) {
+                MessageToast.show("Please fill all required fields");
+                return;
+            }
+
+            // Prepare parameters for the backend call
+            var mParams = {
+                Carrid: sCarrid,
+                Carrname: sCarrname,
+                Currcode: sCurrcode,
+                Url: sUrl
+            };
+
+            var that = this;
+            var oDataModel = this.getOwnerComponent().getModel();
+
+            // Set dialog to busy state
+            this.oUpdateDialog.setBusy(true);
+
+            // Call the backend update function
+            oDataModel.callFunction("/modify_airline", {
+                method: "POST",
+                urlParameters: mParams,
+                success: function (oData, response) {
+                    // Close the dialog
+                    that.oUpdateDialog.close();
+                    // Remove busy state
+                    that.oUpdateDialog.setBusy(false);
+                    // Refresh the table data
+                    that.readFlight(that);
+                    // Show success message
+                    MessageToast.show("The Airline Updated Successfully");
+                },
+                error: function (oError) {
+                    // Remove busy state
+                    that.oUpdateDialog.setBusy(false);
+                    // Show error message
+                    MessageToast.show("An error occurred while updating");
+                    that.oUpdateDialog.close();
+                }
+            });
+
+        },
+
+        onModifyRowRecord: function () {
+
+            var oTable = this.getView().byId("_IDGenTable1");
+            var oSelectedItem = oTable.getSelectedItem();
 
 
+            if (!oSelectedItem) {
+                MessageToast.show("Please select a row first.");
+                return;
+            }
+
+            // Get the data of the selected item
+            var oContext = oSelectedItem.getBindingContext("flightDataModel");
+            var oSelectedData = oContext.getObject();
+
+            // Store selected data in a local model for the dialog
+            var oUpdateModel = new sap.ui.model.json.JSONModel(oSelectedData);
+            this.getView().setModel(oUpdateModel, "updateModel");
+
+            // Open the update dialog
+            if (!this.oUpdateDialog) {
+                this.loadFragment({
+                    name: "flightui5eh.Fragment.ModifyAirline" // FIXED: Changed to match actual fragment name
+                }).then(
+                    function (oDialog) {
+                        this.oUpdateDialog = oDialog;
+                        this.oUpdateDialog.open();
+                    }.bind(this)
+                );
+            } else {
+                this.oUpdateDialog.open();
+            }
+
+        },
+
+        onCancelModifyRecord: function () {
+            this.oUpdateDialog.close();
+        },
+
+        onDeleteSingleItem: function (oEvent) {
+
+            var sCarrid = oEvent.getSource().getBindingContext("flightDataModel").getObject().Carrid;
+
+            var that = this;
+            sap.m.MessageBox.confirm("Are you sure you want to delete this airline?", {
+                title: "Confirm Deletion",
+                actions: ["Yes", "No"],
+                onClose: function (sAction) {
+                    if (sAction === "Yes") {
+                        that._deleteSingleAirlines(sCarrid);
+                    }
+                }
+            });
+
+        },
+
+        _deleteSingleAirlines: function (sCarrid) {
+            var oDataModel = this.getOwnerComponent().getModel();
+            var that = this;
+
+            var addparam = {
+                Carrid: sCarrid
+            };
+
+            oDataModel.callFunction("/Delete_Item_airline", {
+                method: "POST",
+                urlParameters: addparam,
+                success: function () {
+                    sap.m.MessageToast.show("Airline deleted successfully.");
+                    that.readFlight(that);
+                },
+                error: function () {
+                    sap.m.MessageToast.show("Error deleting airline.");
+                }
+            });
+        },
     });
 });

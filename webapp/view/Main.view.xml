@@ -7,10 +7,11 @@
         id="page"
         title="{i18n>title}"
     >
+    <!-- mode="MultiSelect" -->
 
         <Table
             id="_IDGenTable1"
-            mode="MultiSelect"
+            mode="SingleSelectLeft"
             items="{
 			path: 'flightDataModel>/'
 			
@@ -31,12 +32,20 @@
                         type="Emphasized"
                         icon="sap-icon://add"
                     />
+                    <Button
+                        id="_IDGenButtonmod"
+                        text="Modify"
+                        press=".onModifyRowRecord"
+                        type="Emphasized"
+                        icon="sap-icon://edit"
+                    />
                     <Button 
                         id="_IDGenButton3"
                         text="Delete"
                         type="Reject"
                         icon="sap-icon://delete"
-                        press=".onDeleteSelected" />
+                        press=".onDeleteSelected" 
+                        visible="false"/>
 
                 </OverflowToolbar>
             </headerToolbar>
@@ -70,6 +79,9 @@
                         id="_IDStatus1"
                         text="{i18n>Status}"
                     />
+                </Column>
+                <Column id="deleteColumn" width="5rem">
+                    <Text id="_IDText8" text="Remove " />
                 </Column>
             </columns>
             <items>
@@ -136,6 +148,11 @@
                             id="_IDStatus3"
                             text="{flightDataModel>Status}"
                         />
+                        <Button id="_IDGenButton4" 
+                            icon="sap-icon://delete" 
+                            type="Reject" 
+                            press="onDeleteSingleItem"
+                            tooltip="Delete this airline" />
                     </cells>
                 </ColumnListItem>
             </items>
