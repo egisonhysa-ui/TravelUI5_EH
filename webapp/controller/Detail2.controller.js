@@ -1,7 +1,9 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "flightui5eh/formatter/Formatter",
-], (Controller, Formatter) => {
+    "sap/m/MessageToast",
+    "sap/m/MessageBox",
+], (Controller, Formatter, MessageToast, MessageBox) => {
     "use strict";
 
     return Controller.extend("flightui5eh.controller.Detail2", {
@@ -26,7 +28,7 @@ sap.ui.define([
 
             oDataModel.read(sPath, {
                 urlParameters: {
-                    "$expand": "to_DetailsEGH" 
+                    "$expand": "to_DetailsEGH"
                 },
 
                 success: function (oresponse) {
@@ -44,7 +46,73 @@ sap.ui.define([
         oNavButton_press: function (oEvent) {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.navTo("main");
-        }
+        },
+
+        onDeleteSingleDetail: function (oEvent) {
+
+            var sCarrid = oEvent.getSource().getBindingContext("FlghDetailModel").getObject().Carrid;
+            var sConnid = oEvent.getSource().getBindingContext("FlghDetailModel").getObject().Connid;
+
+            var that = this;
+            sap.m.MessageBox.confirm("Are you sure you want to delete this Detail airline?", {
+                title: "Confirm Deletion",
+                actions: ["Yes", "No"],
+                onClose: function (sAction) {
+                    if (sAction === "Yes") {
+                        that._deleteSingleDetail(sCarrid, sConnid);
+                    }
+                }
+            });
+
+
+        },
+
+        _deleteSingleDetail: function (sCarrid, sConnid) {
+            var oDataModel = this.getOwnerComponent().getModel();
+            var that = this;
+
+            var addparam = {
+                Carrid: sCarrid,
+                Connid: sConnid
+            };
+
+            oDataModel.callFunction("/Delete_Item_Detail", {
+                method: "POST",
+                urlParameters: addparam,
+                success: function () {
+                    sap.m.MessageToast.show("Airline deleted successfully.");
+                    that.readFlight(that);
+                },
+                error: function () {
+                    sap.m.MessageToast.show("Error deleting airline.");
+                }
+            });
+        },
+
+        readFlight: function (that) {
+
+
+            var sCarrId = that.getView().getModel("FlghDetailModel").getData().Carrid;
+
+            var oDataModel = that.getOwnerComponent().getModel();
+            var oDetailModel = that.getView().getModel("FlghDetailModel");
+
+            var sPath = "/Flight(Carrid='" + sCarrId + "',IsActiveEntity=true)";
+
+            oDataModel.read(sPath, {
+                urlParameters: {
+                    "$expand": "to_DetailsEGH"
+                },
+                success: function (oResponse) {
+                    console.log(oResponse);
+
+                    // Replace the whole object, including updated details
+                    oDetailModel.setData(oResponse);
+                },
+                error: function (oError) { }
+            });
+
+        },
 
     });
 });

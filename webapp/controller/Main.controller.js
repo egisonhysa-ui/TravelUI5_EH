@@ -3,7 +3,8 @@ sap.ui.define([
     "flightui5eh/formatter/Formatter",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-], (Controller, Formatter, MessageToast, MessageBox) => {
+    "sap/ui/export/Spreadsheet",
+], (Controller, Formatter, MessageToast, MessageBox, Spreadsheet) => {
     "use strict";
 
     return Controller.extend("flightui5eh.controller.Main", {
@@ -316,5 +317,49 @@ sap.ui.define([
                 }
             });
         },
+
+        onDownloadExcel: function () {
+            var oModel = this.getView().getModel("flightDataModel");
+            var aData = oModel.getData();   // your table data array
+
+            if (!aData || aData.length === 0) {
+                sap.m.MessageToast.show("No data to export.");
+                return;
+            }
+
+            // Define Excel Columns (match your table)
+            var aCols = [
+                { label: "Carrid", property: "Carrid" },
+                { label: "Carrname", property: "Carrname" },
+                { label: "Url", property: "Url" },
+                { label: "Logo", property: "logo_image" },
+                { label: "Status", property: "Status" }
+            ];
+
+            // Spreadsheet settings
+            var oSettings = {
+                workbook: {
+                    columns: aCols
+                },
+                dataSource: aData,
+                fileName: "Airlines.xlsx"
+            };
+
+            var oSpreadsheet = new sap.ui.export.Spreadsheet(oSettings);
+
+            oSpreadsheet.build()
+                .then(function () {
+                    sap.m.MessageToast.show("Excel downloaded.");
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .finally(function () {
+                    oSpreadsheet.destroy();
+                });
+        }
+
+
+
     });
 });

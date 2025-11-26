@@ -529,6 +529,10 @@
                     <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
                     <Parameter Name="NumSeats" Type="Edm.Byte" Mode="In"/>
                 </FunctionImport>
+                <FunctionImport Name="Delete_Item_Detail" ReturnType="cds_zui_flight_egh_o4.DummyFunctionImportResult" m:HttpMethod="POST">
+                    <Parameter Name="Carrid" Type="Edm.String" Mode="In" MaxLength="3" Nullable="true"/>
+                    <Parameter Name="Connid" Type="Edm.String" Mode="In" MaxLength="4" Nullable="true"/>
+                </FunctionImport>
                 <FunctionImport Name="FlightActivate" ReturnType="cds_zui_flight_egh_o4.FlightType" EntitySet="Flight" m:HttpMethod="POST" sap:action-for="cds_zui_flight_egh_o4.FlightType">
                     <Parameter Name="Carrid" Type="Edm.String" Mode="In" MaxLength="3"/>
                     <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>

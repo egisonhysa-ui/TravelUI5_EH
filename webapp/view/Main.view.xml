@@ -46,6 +46,12 @@
                         icon="sap-icon://delete"
                         press=".onDeleteSelected" 
                         visible="false"/>
+                    <Button
+                        id="btnDownloadExcel"
+                        text="Download"
+                        icon="sap-icon://excel-attachment"
+                        press=".onDownloadExcel"
+/>
 
                 </OverflowToolbar>
             </headerToolbar>

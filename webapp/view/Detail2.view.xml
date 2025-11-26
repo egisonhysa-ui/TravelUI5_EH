@@ -87,6 +87,7 @@
                                 <m:Column id="_IDGenColumn14"><m:Text id="_IDGenText16" text="SeatsoccB" /></m:Column>
                                 <m:Column id="_IDGenColumn15"><m:Text id="_IDGenText17" text="SeatsmaxF" /></m:Column>
                                 <m:Column id="_IDGenColumn16"><m:Text id="_IDGenText18" text="SeatsoccF" /></m:Column>
+                                <m:Column id="deleteColumnde" width="5rem"><m:Text id="_IDText8de" text="Remove " /></m:Column>
                             </m:columns>
 
                             <m:items>
@@ -110,6 +111,11 @@
                                     <m:Text id="_IDGenText28" text="{FlghDetailModel>SeatsoccB}" />
                                     <m:Text id="_IDGenText29" text="{FlghDetailModel>SeatsmaxF}" />
                                     <m:Text id="_IDGenText30" text="{FlghDetailModel>SeatsoccF}" />
+                                     <m:Button id="_IDGenButton4de" 
+                                                icon="sap-icon://delete" 
+                                                type="Reject" 
+                                                press="onDeleteSingleDetail"
+                                                tooltip="Delete this airline" />
                                 </m:cells>
                                 </m:ColumnListItem>
                             </m:items>
