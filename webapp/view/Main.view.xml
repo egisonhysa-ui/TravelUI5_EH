@@ -8,6 +8,24 @@
         title="{i18n>title}"
     >
     <!-- mode="MultiSelect" -->
+<Toolbar id="_IDGenToolbar2">
+    <Title id="_IDGenTitle2" text="Filter" />
+    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+
+    <Label id="_IDGenLabel3" text="Carrid:" />
+    <Input
+        id="inpCarridFilter"
+        placeholder="Enter airline code…"
+        width="150px"
+        liveChange=".onFilterCarrid"  
+    />
+
+    <!-- <Button id="_IDGenButton5"
+        text="Search"
+        icon="sap-icon://search"
+        press=".onFilterCarrid"
+    /> -->
+</Toolbar>
 
         <Table
             id="_IDGenTable1"

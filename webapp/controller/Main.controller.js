@@ -318,16 +318,66 @@ sap.ui.define([
             });
         },
 
-        onDownloadExcel: function () {
-            var oModel = this.getView().getModel("flightDataModel");
-            var aData = oModel.getData();   // your table data array
+        // onDownloadExcel: function () {
+        //     var oModel = this.getView().getModel("flightDataModel");
+        //     var aData = oModel.getData();   // your table data array
 
-            if (!aData || aData.length === 0) {
-                sap.m.MessageToast.show("No data to export.");
+        //     if (!aData || aData.length === 0) {
+        //         sap.m.MessageToast.show("No data to export.");
+        //         return;
+        //     }
+
+        //     // Define Excel Columns (match your table)
+        //     var aCols = [
+        //         { label: "Carrid", property: "Carrid" },
+        //         { label: "Carrname", property: "Carrname" },
+        //         { label: "Url", property: "Url" },
+        //         { label: "Logo", property: "logo_image" },
+        //         { label: "Status", property: "Status" }
+        //     ];
+
+        //     // Spreadsheet settings
+        //     var oSettings = {
+        //         workbook: {
+        //             columns: aCols
+        //         },
+        //         dataSource: aData,
+        //         fileName: "Airlines.xlsx"
+        //     };
+
+        //     var oSpreadsheet = new sap.ui.export.Spreadsheet(oSettings);
+
+        //     oSpreadsheet.build()
+        //         .then(function () {
+        //             sap.m.MessageToast.show("Excel downloaded.");
+        //         })
+        //         .catch(function (error) {
+        //             console.error(error);
+        //         })
+        //         .finally(function () {
+        //             oSpreadsheet.destroy();
+        //         });
+        // },
+
+        onDownloadExcel: function () {
+
+            var oTable = this.byId("_IDGenTable1");
+            var oBinding = oTable.getBinding("items");
+
+            // Get only visible (filtered) items
+            var aContexts = oBinding.getCurrentContexts();
+
+            if (!aContexts || aContexts.length === 0) {
+                sap.m.MessageToast.show("No filtered data to export.");
                 return;
             }
 
-            // Define Excel Columns (match your table)
+            // Convert contexts to raw JSON data
+            var aData = aContexts.map(function (oCtx) {
+                return oCtx.getObject();
+            });
+
+            // Define Excel Columns
             var aCols = [
                 { label: "Carrid", property: "Carrid" },
                 { label: "Carrname", property: "Carrname" },
@@ -336,20 +386,19 @@ sap.ui.define([
                 { label: "Status", property: "Status" }
             ];
 
-            // Spreadsheet settings
             var oSettings = {
                 workbook: {
                     columns: aCols
                 },
-                dataSource: aData,
-                fileName: "Airlines.xlsx"
+                dataSource: aData,   // << now filtered rows only
+                fileName: "Airlines_Filtered.xlsx"
             };
 
             var oSpreadsheet = new sap.ui.export.Spreadsheet(oSettings);
 
             oSpreadsheet.build()
                 .then(function () {
-                    sap.m.MessageToast.show("Excel downloaded.");
+                    sap.m.MessageToast.show("Filtered Excel downloaded.");
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -357,7 +406,61 @@ sap.ui.define([
                 .finally(function () {
                     oSpreadsheet.destroy();
                 });
+        },
+
+
+        // onFilterCarrid: function () {
+        //     var sFilterValue = this.byId("inpCarridFilter").getValue();
+
+        //     // Get table and binding
+        //     var oTable = this.byId("_IDGenTable1");
+        //     var oBinding = oTable.getBinding("items");
+
+        //     // Build filters
+        //     var aFilters = [];
+        //     if (sFilterValue) {
+        //         aFilters.push(new sap.ui.model.Filter(
+        //             "Carrid",
+        //             sap.ui.model.FilterOperator.Contains,
+        //             sFilterValue
+        //         ));
+        //     }
+
+        //     // Apply filter
+        //     oBinding.filter(aFilters);
+        // },
+
+        onFilterCarrid: function () {
+            var sValue = this.byId("inpCarridFilter").getValue().trim();
+
+            var oTable = this.byId("_IDGenTable1");
+            var oBinding = oTable.getBinding("items");
+
+            var aFilters = [];
+
+            if (sValue) {
+                // If value looks like a carrier ID (typically short)
+                if (sValue.length <= 3 && /^[A-Za-z0-9]+$/.test(sValue)) {
+                    // Filter by Carrid
+                    aFilters.push(new sap.ui.model.Filter(
+                        "Carrid",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue
+                    ));
+                } else {
+                    // Otherwise filter by Carrname
+                    aFilters.push(new sap.ui.model.Filter(
+                        "Carrname",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue
+                    ));
+                }
+            }
+
+            oBinding.filter(aFilters);
         }
+
+
 
 
 
